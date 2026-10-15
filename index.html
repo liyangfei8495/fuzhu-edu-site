@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>付诸教育 · 红飞创作团队</title>
+<meta name="description" content="付诸教育旗下红飞创作团队开发的系统与工具门户。" />
+<style>
+  :root{
+    --c-primary:#2563eb;
+    --c-primary-dark:#1e40af;
+    --c-accent:#f59e0b;
+    --c-bg:#f8fafc;
+    --c-surface:#ffffff;
+    --c-ink:#0f172a;
+    --c-muted:#64748b;
+    --c-line:#e2e8f0;
+    --shadow:0 10px 30px rgba(15,23,42,.08);
+    --shadow-lg:0 20px 50px rgba(15,23,42,.14);
+    --radius:16px;
+    --maxw:1140px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+    color:var(--c-ink);background:var(--c-bg);line-height:1.65;-webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+
+  /* ---------- Nav ---------- */
+  header.nav{
+    position:sticky;top:0;z-index:50;
+    backdrop-filter:saturate(180%) blur(12px);
+    background:rgba(255,255,255,.78);
+    border-bottom:1px solid var(--c-line);
+  }
+  .nav-inner{display:flex;align-items:center;justify-content:space-between;height:64px}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:18px;letter-spacing:.5px}
+  .brand .logo{
+    width:34px;height:34px;border-radius:9px;
+    background:linear-gradient(135deg,var(--c-primary),var(--c-accent));
+    display:grid;place-items:center;color:#fff;font-size:16px;font-weight:900;box-shadow:var(--shadow)
+  }
+  .nav-links{display:flex;gap:28px;align-items:center}
+  .nav-links a{color:var(--c-muted);font-weight:600;font-size:15px;transition:color .2s}
+  .nav-links a:hover{color:var(--c-primary)}
+  .nav-cta{
+    background:var(--c-primary);color:#fff;padding:9px 18px;border-radius:999px;
+    font-weight:700;font-size:14px;box-shadow:var(--shadow);transition:transform .15s,box-shadow .2s
+  }
+  .nav-cta:hover{transform:translateY(-1px);box-shadow:var(--shadow-lg)}
+  .menu-btn{display:none;background:none;border:0;font-size:24px;cursor:pointer;color:var(--c-ink)}
+
+  /* ---------- Hero ---------- */
+  .hero{
+    position:relative;overflow:hidden;
+    background:linear-gradient(135deg,#1e3a8a 0%,#2563eb 55%,#0ea5e9 100%);
+    color:#fff;padding:96px 0 110px;
+  }
+  .hero::before{
+    content:"";position:absolute;inset:0;opacity:.18;
+    background-image:radial-gradient(circle at 20% 30%,#fff 0,transparent 40%),
+      radial-gradient(circle at 80% 70%,#fff 0,transparent 38%);
+  }
+  .hero::after{
+    content:"";position:absolute;left:0;right:0;bottom:-1px;height:80px;
+    background:var(--c-bg);
+    clip-path:polygon(0 100%,100% 100%,100% 0);
+  }
+  .hero .wrap{position:relative;z-index:2}
+  .badge{
+    display:inline-flex;align-items:center;gap:8px;
+    background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.3);
+    padding:6px 14px;border-radius:999px;font-size:13px;font-weight:600;margin-bottom:22px
+  }
+  .hero h1{font-size:clamp(32px,5vw,52px);line-height:1.18;font-weight:900;letter-spacing:.5px}
+  .hero h1 .hl{color:var(--c-accent)}
+  .hero p.lead{margin-top:18px;font-size:clamp(16px,2vw,19px);max-width:640px;color:rgba(255,255,255,.92)}
+  .hero-actions{margin-top:32px;display:flex;gap:14px;flex-wrap:wrap}
+  .btn{
+    display:inline-flex;align-items:center;gap:8px;padding:13px 26px;border-radius:999px;
+    font-weight:700;font-size:15px;transition:transform .15s,box-shadow .2s,background .2s;cursor:pointer;border:0
+  }
+  .btn-primary{background:#fff;color:var(--c-primary-dark);box-shadow:var(--shadow-lg)}
+  .btn-primary:hover{transform:translateY(-2px)}
+  .btn-ghost{background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.35)}
+  .btn-ghost:hover{background:rgba(255,255,255,.22)}
+
+  /* ---------- Section ---------- */
+  section{padding:78px 0}
+  .sec-head{text-align:center;max-width:680px;margin:0 auto 48px}
+  .sec-tag{color:var(--c-primary);font-weight:800;letter-spacing:2px;font-size:13px;text-transform:uppercase}
+  .sec-head h2{font-size:clamp(26px,3.4vw,36px);margin-top:10px;font-weight:900}
+  .sec-head p{margin-top:14px;color:var(--c-muted);font-size:16px}
+
+  /* ---------- Features ---------- */
+  .grid{display:grid;gap:22px}
+  .grid-3{grid-template-columns:repeat(3,1fr)}
+  .grid-2{grid-template-columns:repeat(2,1fr)}
+  .card{
+    background:var(--c-surface);border:1px solid var(--c-line);border-radius:var(--radius);
+    padding:28px;box-shadow:var(--shadow);transition:transform .2s,box-shadow .2s
+  }
+  .card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
+  .card .ic{
+    width:48px;height:48px;border-radius:12px;display:grid;place-items:center;font-size:22px;
+    background:linear-gradient(135deg,#dbeafe,#eff6ff);color:var(--c-primary);margin-bottom:16px
+  }
+  .card h3{font-size:19px;font-weight:800;margin-bottom:8px}
+  .card p{color:var(--c-muted);font-size:15px}
+
+  /* ---------- Tools ---------- */
+  .tools{background:linear-gradient(180deg,#fff,#f1f5f9)}
+  .tool-card{
+    position:relative;background:var(--c-surface);border:1px solid var(--c-line);border-radius:var(--radius);
+    padding:26px;box-shadow:var(--shadow);overflow:hidden;transition:transform .2s,box-shadow .2s
+  }
+  .tool-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
+  .tool-card .tag{
+    position:absolute;top:16px;right:16px;font-size:12px;font-weight:700;padding:4px 10px;border-radius:999px;
+    background:#fef3c7;color:#b45309
+  }
+  .tool-card .num{
+    font-size:13px;font-weight:800;color:var(--c-accent);letter-spacing:1px
+  }
+  .tool-card h3{font-size:20px;font-weight:800;margin:6px 0 10px}
+  .tool-card p{color:var(--c-muted);font-size:15px;min-height:46px}
+  .tool-card .go{
+    margin-top:16px;display:inline-flex;align-items:center;gap:6px;color:var(--c-primary);font-weight:700;font-size:14px
+  }
+
+  /* ---------- About ---------- */
+  .about{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center}
+  .about .panel{background:var(--c-surface);border:1px solid var(--c-line);border-radius:var(--radius);padding:32px;box-shadow:var(--shadow)}
+  .about .panel h3{font-size:21px;font-weight:900;margin-bottom:12px;display:flex;align-items:center;gap:10px}
+  .about .panel h3 .dot{width:12px;height:12px;border-radius:50%;background:var(--c-accent)}
+  .about .panel p{color:var(--c-muted);font-size:15px;margin-bottom:10px}
+  .about .panel ul{list-style:none;margin-top:8px}
+  .about .panel li{padding:7px 0 7px 26px;position:relative;color:#334155;font-size:15px}
+  .about .panel li::before{content:"✓";position:absolute;left:0;color:var(--c-primary);font-weight:900}
+
+  /* ---------- CTA ---------- */
+  .cta{
+    background:linear-gradient(135deg,#1e3a8a,#2563eb);color:#fff;border-radius:24px;
+    padding:54px 40px;text-align:center;box-shadow:var(--shadow-lg)
+  }
+  .cta h2{font-size:clamp(24px,3vw,32px);font-weight:900}
+  .cta p{margin-top:12px;color:rgba(255,255,255,.9);font-size:16px}
+  .cta .btn-primary{margin-top:26px;background:#fff;color:var(--c-primary-dark)}
+
+  /* ---------- Footer ---------- */
+  footer{background:#0f172a;color:#cbd5e1;padding:46px 0 28px}
+  .foot-grid{display:flex;justify-content:space-between;flex-wrap:wrap;gap:24px}
+  .foot-brand{font-weight:800;color:#fff;font-size:18px;display:flex;align-items:center;gap:10px}
+  .foot-brand .logo{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,var(--c-primary),var(--c-accent));display:grid;place-items:center;color:#fff;font-weight:900}
+  footer p{font-size:14px;margin-top:10px;max-width:360px;color:#94a3b8}
+  .foot-links a{display:block;color:#cbd5e1;font-size:14px;padding:5px 0;transition:color .2s}
+  .foot-links a:hover{color:#fff}
+  .foot-bottom{border-top:1px solid #1e293b;margin-top:34px;padding-top:18px;font-size:13px;color:#64748b;text-align:center}
+  .foot-bottom b{color:#94a3b8}
+
+  /* ---------- Reveal animation ---------- */
+  .reveal{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease}
+  .reveal.in{opacity:1;transform:none}
+
+  /* ---------- Responsive ---------- */
+  @media(max-width:880px){
+    .nav-links{display:none;position:absolute;top:64px;left:0;right:0;background:#fff;flex-direction:column;gap:0;padding:10px 24px 18px;border-bottom:1px solid var(--c-line);box-shadow:var(--shadow)}
+    .nav-links.open{display:flex}
+    .nav-links a{padding:12px 0;border-bottom:1px solid var(--c-line);width:100%}
+    .menu-btn{display:block}
+    .grid-3,.grid-2,.about{grid-template-columns:1fr}
+    .about{gap:22px}
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== Nav ===== -->
+<header class="nav">
+  <div class="wrap nav-inner">
+    <div class="brand">
+      <span class="logo">付</span>
+      <span>付诸教育</span>
+    </div>
+    <nav class="nav-links" id="navLinks">
+      <a href="#home">首页</a>
+      <a href="#features">核心能力</a>
+      <a href="#tools">工具中心</a>
+      <a href="#about">关于我们</a>
+      <a href="#contact">联系</a>
+    </nav>
+    <a href="#tools" class="nav-cta">进入工具</a>
+    <button class="menu-btn" id="menuBtn" aria-label="菜单">☰</button>
+  </div>
+</header>
+
+<!-- ===== Hero ===== -->
+<section class="hero" id="home">
+  <div class="wrap">
+    <span class="badge">● 红飞创作团队 开发</span>
+    <h1>付诸教育<br>让知识<span class="hl">付诸实践</span></h1>
+    <p class="lead">由红飞创作团队倾力打造的系统与工具门户。我们聚焦教育场景下的实用工具研发，让教与学更高效、更可靠。</p>
+    <div class="hero-actions">
+      <a href="#tools" class="btn btn-primary">浏览系统工具 →</a>
+      <a href="#about" class="btn btn-ghost">了解我们</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Features ===== -->
+<section id="features">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="sec-tag">Why Fuzhu</div>
+      <h2>我们做的不只是页面</h2>
+      <p>每一套系统都经过真实教学场景打磨，安全、稳定、易用。</p>
+    </div>
+    <div class="grid grid-3">
+      <div class="card reveal">
+        <div class="ic">🛡️</div>
+        <h3>安全优先</h3>
+        <p>全站 HTTPS、登录鉴权与访问控制，源码与数据隔离托管，杜绝越权访问。</p>
+      </div>
+      <div class="card reveal">
+        <div class="ic">⚡</div>
+        <h3>稳定可靠</h3>
+        <p>后端服务进程托管 + 自动恢复，7×24 持续运行，关键操作有完整日志留痕。</p>
+      </div>
+      <div class="card reveal">
+        <div class="ic">🎯</div>
+        <h3>面向教育</h3>
+        <p>围绕教学与管理真实痛点设计，界面简洁直观，师生零门槛上手。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Tools ===== -->
+<section class="tools" id="tools">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="sec-tag">Tool Center</div>
+      <h2>系统工具中心</h2>
+      <p>以下工具由红飞创作团队开发并部署在 fz34056.cn。点击卡片可进入对应系统。</p>
+    </div>
+    <div class="grid grid-3">
+      <div class="tool-card reveal">
+        <span class="tag">即将开放</span>
+        <div class="num">TOOL 01</div>
+        <h3>工具一</h3>
+        <p>在此填写工具名称与一句话简介，部署后把卡片链接指向实际系统地址。</p>
+        <a href="#" class="go">进入系统 →</a>
+      </div>
+      <div class="tool-card reveal">
+        <span class="tag">即将开放</span>
+        <div class="num">TOOL 02</div>
+        <h3>工具二</h3>
+        <p>在此填写工具名称与一句话简介，部署后把卡片链接指向实际系统地址。</p>
+        <a href="#" class="go">进入系统 →</a>
+      </div>
+      <div class="tool-card reveal">
+        <span class="tag">即将开放</span>
+        <div class="num">TOOL 03</div>
+        <h3>工具三</h3>
+        <p>在此填写工具名称与一句话简介，部署后把卡片链接指向实际系统地址。</p>
+        <a href="#" class="go">进入系统 →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== About ===== -->
+<section id="about">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="sec-tag">About Us</div>
+      <h2>关于付诸教育与红飞创作团队</h2>
+    </div>
+    <div class="about">
+      <div class="panel reveal">
+        <h3><span class="dot"></span>付诸教育</h3>
+        <p>付诸教育致力于把先进的教育理念转化为可落地的产品与服务，关注教与学两端的实际体验。</p>
+        <ul>
+          <li>以教学真实场景为出发点设计产品</li>
+          <li>重视数据安全与合规托管</li>
+          <li>持续打磨，长期维护更新</li>
+        </ul>
+      </div>
+      <div class="panel reveal">
+        <h3><span class="dot"></span>红飞创作团队</h3>
+        <p>红飞创作团队是付诸教育旗下的研发小组，负责本站全部系统与工具的开发、部署与运维。</p>
+        <ul>
+          <li>前端 / 后端 / 运维一体化交付</li>
+          <li>自主可控的部署与安全方案</li>
+          <li>响应迅速，按需迭代功能</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CTA ===== -->
+<section>
+  <div class="wrap">
+    <div class="cta reveal">
+      <h2>需要定制一套属于你的教育工具？</h2>
+      <p>联系红飞创作团队，从需求到上线一站式交付。</p>
+      <a href="#contact" class="btn btn-primary">联系我们</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Footer ===== -->
+<footer id="contact">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="foot-brand"><span class="logo">付</span>付诸教育</div>
+        <p>由红飞创作团队开发并维护的教育系统工具门户。本站域名 fz34056.cn。</p>
+      </div>
+      <div class="foot-links">
+        <b style="color:#e2e8f0">导航</b>
+        <a href="#home">首页</a>
+        <a href="#features">核心能力</a>
+        <a href="#tools">工具中心</a>
+        <a href="#about">关于我们</a>
+      </div>
+      <div class="foot-links">
+        <b style="color:#e2e8f0">联系</b>
+        <a href="#">商务合作</a>
+        <a href="#">技术反馈</a>
+        <a href="#">加入我们</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      © <span id="year"></span> 付诸教育 · 红飞创作团队 开发 &nbsp;|&nbsp; 域名 <b>fz34056.cn</b> &nbsp;|&nbsp; 保留所有权利
+    </div>
+  </div>
+</footer>
+
+<script>
+  // year
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // mobile menu
+  const menuBtn = document.getElementById('menuBtn');
+  const navLinks = document.getElementById('navLinks');
+  menuBtn.addEventListener('click', () => navLinks.classList.toggle('open'));
+  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
+
+  // scroll reveal
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.15 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+</body>
+</html>
